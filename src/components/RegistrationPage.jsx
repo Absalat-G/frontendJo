@@ -24,23 +24,23 @@ const RegistrationPage = () => {
       [name]: value
     }));
 
-    // Check if the input being changed is the confirm password field
+    
     if (name === 'confirmPassword') {
-      // If the confirm password field matches the password field, clear any existing errors
+     
       if (value === formData.password) {
         setErrors(prevErrors => ({
           ...prevErrors,
           confirmPassword: ''
         }));
       } else {
-        // If the confirm password field doesn't match the password field, show an error
+        
         setErrors(prevErrors => ({
           ...prevErrors,
           confirmPassword: 'Passwords do not match'
         }));
       }
     } else {
-      // Clear any existing errors for other fields
+      
       setErrors(prevErrors => ({
         ...prevErrors,
         [name]: ''
@@ -65,7 +65,7 @@ const RegistrationPage = () => {
   const validateFormData = (data) => {
     let errors = {};
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
+    
 
     if (!data.firstName.trim()) {
       errors.firstName = 'First Name is required';
