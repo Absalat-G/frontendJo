@@ -87,9 +87,10 @@ const RegistrationPage = () => {
 
     if (!data.password.trim()) {
       errors.password = 'Password is required';
-    } else if (!passwordPattern.test(data.password)) {
-      errors.password = 'Password must be at least 8 characters long and contain at least one digit, one lowercase letter, and one uppercase letter';
-    }
+    } 
+    // else if (!passwordPattern.test(data.password)) {
+    //   errors.password = 'Password must be at least 8 characters long and contain at least one digit, one lowercase letter, and one uppercase letter';
+    // }
 
     if (!data.confirmPassword.trim()) {
       errors.confirmPassword = 'Please confirm your password';
