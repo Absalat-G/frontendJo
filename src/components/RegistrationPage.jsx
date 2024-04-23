@@ -54,7 +54,7 @@ const RegistrationPage = () => {
     const validationErrors = validateFormData(formData);
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form submitted:', formData);
-      axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/RegistrationPage', formData)
+      axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/register', formData)
         .then(res => navigate('/login'))
         .catch(err => console.log(err));
     } else {
