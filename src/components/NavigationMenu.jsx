@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaInfoCircle, FaTicketAlt, FaStore, FaImages, FaVoteYea, FaPhoneAlt, FaUser, FaSignInAlt } from 'react-icons/fa';
-
+import logo from '../images/logo.png';
 const NavigationMenu = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -23,8 +23,9 @@ const NavigationMenu = () => {
 
   return (
     <>
-      <nav className="hidden sm:flex justify-end items-center bg-gray-900 fixed top-0 left-0 w-full z-50">
-  <ul className="flex space-x-6 text-white">
+      <nav className="hidden sm:flex justify-end items-center bg-gray-900 fixed top-0 left-0 w-full z-40">
+      <img src={logo} alt="Logo" className="h-10 w-32 ml-4" />
+  <ul className="flex space-x-6 text-white ml-auto">
     <li className="cursor-pointer flex items-center hover:bg-yellow-500 px-4 py-2 rounded transition duration-300" onClick={() => scrollToSection('about')}>
       <FaInfoCircle className="mr-2" /> About Us
     </li>
@@ -59,6 +60,7 @@ const NavigationMenu = () => {
 
       <div className="sm:hidden fixed top-0 left-0 w-full h-full z-50 transition-transform duration-300 ease-in-out" style={{ transform: showMenu ? 'translateX(0)' : 'translateX(-100%)' }}>
         <div className="bg-gray-700 text-white w-3/4 h-full flex flex-col items-center justify-center p-4">
+        <img src={logo} alt="Logo" className="h-32 w-auto mb-4" />
           <button
             className="absolute top-4 left-4 text-white"
             onClick={() => setShowMenu(false)}

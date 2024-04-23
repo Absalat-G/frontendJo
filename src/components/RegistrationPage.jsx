@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import NavigationMenu from './NavigationMenu';
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     username: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: '',
+    phoneNumber: ''
   });
   const [errors, setErrors] = useState({});
 
@@ -18,24 +23,40 @@ const RegistrationPage = () => {
       ...prevData,
       [name]: value
     }));
-   
-    setErrors(prevErrors => ({
-      ...prevErrors,
-      [name]: ''
-    }));
+
+    // Check if the input being changed is the confirm password field
+    if (name === 'confirmPassword') {
+      // If the confirm password field matches the password field, clear any existing errors
+      if (value === formData.password) {
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          confirmPassword: ''
+        }));
+      } else {
+        // If the confirm password field doesn't match the password field, show an error
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          confirmPassword: 'Passwords do not match'
+        }));
+      }
+    } else {
+      // Clear any existing errors for other fields
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: ''
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   
+
     const validationErrors = validateFormData(formData);
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form submitted:', formData);
-      axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/RegistrationPage', formData)
-
-    .then(res =>{navigate('/login')}
-       )
-    .catch(err => console.log(err));
+      axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/register', formData)
+        .then(res => navigate('/login'))
+        .catch(err => console.log(err));
     } else {
       setErrors(validationErrors);
     }
@@ -45,6 +66,14 @@ const RegistrationPage = () => {
     let errors = {};
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
+
+    if (!data.firstName.trim()) {
+      errors.firstName = 'First Name is required';
+    }
+
+    if (!data.lastName.trim()) {
+      errors.lastName = 'Last Name is required';
+    }
 
     if (!data.username.trim()) {
       errors.username = 'Username is required';
@@ -62,31 +91,94 @@ const RegistrationPage = () => {
       errors.password = 'Password must be at least 8 characters long and contain at least one digit, one lowercase letter, and one uppercase letter';
     }
 
+    if (!data.confirmPassword.trim()) {
+      errors.confirmPassword = 'Please confirm your password';
+    } else if (data.confirmPassword !== data.password) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    if (!data.phoneNumber.trim()) {
+      errors.phoneNumber = 'Phone Number is required';
+    }
+
     return errors;
   };
 
+  const passwordRequirements = [
+    '* Password must contain at least one digit',
+    '* Password must contain at least one lowercase letter',
+    '* Password must contain at least one uppercase letter',
+    '* Password must contain at least one special character',
+    '* Password must be at least 8 characters long'
+  
+  ];
+
+  const isPasswordValid = (password) => {
+    return [
+        /^(?=.*\d)/.test(password),
+        /^(?=.*[a-z])/.test(password),
+        /^(?=.*[A-Z])/.test(password),
+        /^(?=.*[@$!%*?&])/.test(password), 
+        password.length >= 8
+    ];
+};
+
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-3xl font-bold mb-4">Register</h2>
-      <form className="w-full max-w-sm" onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700">Username</label>
-          <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
-          {errors.username && <span className="text-red-500">{errors.username}</span>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">Email</label>
-          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
-          {errors.email && <span className="text-red-500">{errors.email}</span>}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700">Password</label>
-          <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
-          {errors.password && <span className="text-red-500">{errors.password}</span>}
-        </div>
-        <button type="submit" className="w-full px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600">Register</button>
-      </form>
-      <p>Already have an account? <Link to="/login">Login here</Link></p>
+    <div className="relative flex flex-col bg-black items-center justify-center min-h-screen">
+      <NavigationMenu />
+      <div className="z-10 relative"> 
+        <form className="w-full max-w-md bg-white shadow-md rounded px-8 pt-6 pb-8 mb-12 mt-24" onSubmit={handleSubmit}>
+          
+          <h2 className="text-3xl text-black font-bold mb-4 text-center">Register</h2>
+          <div className="flex flex-wrap -mx-3 mb-4">
+            <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+              <label htmlFor="firstName" className="block text-gray-900">First Name</label>
+              <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+              {errors.firstName && <span className="text-red-500">{errors.firstName}</span>}
+            </div>
+            <div className="w-full md:w-1/2 px-3">
+              <label htmlFor="lastName" className="block text-gray-900">Last Name</label>
+              <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+              {errors.lastName && <span className="text-red-500">{errors.lastName}</span>}
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-gray-900">Username</label>
+            <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+            {errors.username && <span className="text-red-500">{errors.username}</span>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="phoneNumber" className="block text-gray-900">Phone Number</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+            {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-900">Email</label>
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+            {errors.email && <span className="text-red-500">{errors.email}</span>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-gray-900">Password</label>
+            <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+            <ul className="text-gray-500">
+              {passwordRequirements.map((requirement, index) => (
+                <li key={index} className={isPasswordValid(formData.password)[index] ? "text-green-500" : "text-red-500"}>{requirement}</li>
+              ))}
+            </ul>
+            {errors.password && <span className="text-red-500">{errors.password}</span>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="confirmPassword" className="block text-gray-900">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
+            {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
+          </div>
+        
+          <button type="submit" className="w-full px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600">Register</button>
+          <p className='text-center'>Already have an account? <Link to="/login" className='text-blue-600 hover:underline'>Login here</Link></p>
+        </form>
+      </div>
     </div>
   );
 };
