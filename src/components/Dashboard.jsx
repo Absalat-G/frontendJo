@@ -4,22 +4,21 @@ const Dashboard = () => {
     const [loginActivity, setLoginActivity] = useState([]);
 
     useEffect(() => {
-       
         fetchLoginActivity();
     }, []);
 
     const fetchLoginActivity = async () => {
-      try {
-          const response = await fetch('https://jollofsummit-df2363f7dc94.herokuapp.com/login');
-          if (!response.ok) {
-              throw new Error('Failed to fetch login activity data');
-          }
-          const data = await response.json();
-          setLoginActivity(data);
-          console.error('Error fetching login activity data:', error);
-      }
-  };
-  
+        try {
+            const response = await fetch('https://jollofsummit-df2363f7dc94.herokuapp.com/login');
+            if (!response.ok) {
+                throw new Error('Failed to fetch login activity data');
+            }
+            const data = await response.json();
+            setLoginActivity(data);
+        } catch (error) {
+            console.error('Error fetching login activity data:', error);
+        }
+    };
 
     return (
         <div className="container mx-auto px-4 py-8">
