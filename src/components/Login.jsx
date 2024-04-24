@@ -1,28 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import axios from 'axios';
 import NavigationMenu from './NavigationMenu';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials(prev => ({ ...prev, [name]: value }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/login', credentials);
+  //     console.log(response.data);
+     
+  //     window.location.href = '/dashboard';
+  //   } catch (error) {
+  //     setError('Invalid email or password');
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/login', credentials);
-      console.log(response.data);
-     
-      window.location.href = '/dashboard';
+      const { token } = response.data; 
+      localStorage.setItem('token', token); 
+      history.push('/dashboard'); 
     } catch (error) {
       setError('Invalid email or password');
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center bg-black h-screen">
