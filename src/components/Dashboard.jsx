@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom'; 
 
 const Dashboard = () => {
     const [loginActivity, setLoginActivity] = useState([]);
+    const history = useHistory(); 
 
     useEffect(() => {
         fetchLoginActivity();
@@ -17,6 +19,7 @@ const Dashboard = () => {
             setLoginActivity(data);
         } catch (error) {
             console.error('Error fetching login activity data:', error);
+            history.push('/error'); 
         }
     };
 
