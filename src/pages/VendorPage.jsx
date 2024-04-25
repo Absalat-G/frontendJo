@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import backgroundImage from '../images/Vendor.png';
-import { Link } from 'react-router-dom'; 
+
 import NavigationMenu from '../components/NavigationMenu';
 const VendorPage = () => {
   const [formData, setFormData] = useState({
@@ -47,13 +47,7 @@ const VendorPage = () => {
         <NavigationMenu />
       </div>
  
-{/* <Link to="/" className="absolute top-0 left-0 z-50">
-    <button
-      className="w-8 h-8 bg-white bg-opacity-50 text-black rounded-full hover:bg-opacity-70"
-      style={{ marginLeft: '8px', marginTop: '8px'}}
-    >  &#8592; 
-    </button>
-  </Link> */}
+
     <h1 className="text-2xl font-bold mb-6 mt-16 text-center" style={{ borderBottom: '2px solid #F61D78' }}>
       VENDOR APPLICATION
     </h1>

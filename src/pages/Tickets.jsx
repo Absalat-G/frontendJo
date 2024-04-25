@@ -1,28 +1,17 @@
 import React from 'react';
 import RectangularPicture from '../images/gallery1.png'; 
 import CirclePicture from '../images/gallery2.png'; 
-import { Link } from 'react-router-dom'; 
 import NavigationMenu from '../components/NavigationMenu'
 
 const Tickets = () => {
   return (
     <div className="relative w-full h-full">
-      
-    
       <NavigationMenu/>
-      {/* <Link to="/" className="absolute top-0 left-0 z-50">
-    <button
-      className="w-8 h-8 bg-white bg-opacity-50 text-black rounded-full hover:bg-opacity-70"
-      style={{ marginLeft: '8px', marginTop: '8px'}}
-    >  &#8592; 
-    </button>
-  </Link> */}
       <img
         src={RectangularPicture}
         alt="Rectangular Shape Picture"
         className="w-full h-96 object-cover rounded-lg"
       />
-  
       <div className='flex flex-col-reverse'>
         <div className="absolute bottom-0 left-1/2 top-1/3 transform -translate-x-1/2">
           <img

@@ -1,37 +1,48 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import NavigationMenu from './NavigationMenu';
 
 const Login = () => {
-    const [credentials, setCredentials] = useState({ email: '', password: '' });
-    const [error, setError] = useState('');
+  const location = useLocation();
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setCredentials(prev => ({ ...prev, [name]: value }));
-    };
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const success = queryParams.get('success');
+    if (success === 'true') {
+      setSuccessMessage('Registration successful. You can now login.');
+    }
+  }, [location.search]);
 
-    const handleRedirect = () => {
-        window.location.href = '/dashboard'; // Redirect to the dashboard after successful login
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials(prev => ({ ...prev, [name]: value }));
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/login', credentials);
-            console.log(response.data);
-            handleRedirect(); 
-        } catch (error) {
-            setError('Invalid email or password');
-        }
-    };
+  const handleRedirect = () => {
+    window.location.href = '/dashboard'; 
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/login', credentials);
+      console.log(response.data);
+      handleRedirect(); 
+    } catch (error) {
+      setError('Invalid email or password');
+    }
+  };
 
     return (
         <div className="flex justify-center items-center bg-black h-screen">
             <div className="absolute top-0 left-0 right-0 z-50">
                 <NavigationMenu />
             </div>
+            {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-800 text-sm font-bold mb-2">Email</label>
