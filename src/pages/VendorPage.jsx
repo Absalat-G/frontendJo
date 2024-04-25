@@ -35,7 +35,7 @@ const VendorPage = () => {
   return (
     
     
-    <div className="container mx-auto px-4" style={{backgroundImage: `url(${backgroundImage})`, // Apply background image
+    <div className="container mx-auto px-4" style={{backgroundImage: `url(${backgroundImage})`, 
     backgroundSize: 'cover',
     color: 'white',
     backgroundPosition: 'center',
@@ -47,13 +47,13 @@ const VendorPage = () => {
         <NavigationMenu />
       </div>
  
-<Link to="/" className="absolute top-0 left-0 z-50">
+{/* <Link to="/" className="absolute top-0 left-0 z-50">
     <button
       className="w-8 h-8 bg-white bg-opacity-50 text-black rounded-full hover:bg-opacity-70"
       style={{ marginLeft: '8px', marginTop: '8px'}}
     >  &#8592; 
     </button>
-  </Link>
+  </Link> */}
     <h1 className="text-2xl font-bold mb-6 mt-16 text-center" style={{ borderBottom: '2px solid #F61D78' }}>
       VENDOR APPLICATION
     </h1>

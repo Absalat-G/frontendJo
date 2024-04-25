@@ -21,7 +21,7 @@ const Login = () => {
         try {
             const response = await axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/login', credentials);
             console.log(response.data);
-            handleRedirect(); // Redirect to the dashboard after successful login
+            handleRedirect(); 
         } catch (error) {
             setError('Invalid email or password');
         }

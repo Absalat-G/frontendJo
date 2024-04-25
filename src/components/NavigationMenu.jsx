@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaInfoCircle, FaTicketAlt, FaStore, FaImages, FaVoteYea, FaPhoneAlt, FaUser, FaSignInAlt } from 'react-icons/fa';
-import logo from '../images/logo.png';
+import logo from '../images/logoe.png';
 const NavigationMenu = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -24,7 +24,9 @@ const NavigationMenu = () => {
   return (
     <>
       <nav className="hidden sm:flex justify-end items-center bg-gray-900 fixed top-0 left-0 w-full z-40">
-      <img src={logo} alt="Logo" className="h-10 w-32 ml-4" />
+      <Link to="/">
+          <img src={logo} alt="Logo" className="h-8 w-32 ml-4" />
+        </Link>
   <ul className="flex space-x-6 text-white ml-auto">
     <li className="cursor-pointer flex items-center hover:bg-yellow-500 px-4 py-2 rounded transition duration-300" onClick={() => scrollToSection('about')}>
       <FaInfoCircle className="mr-2" /> About Us
