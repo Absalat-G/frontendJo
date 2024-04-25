@@ -13,7 +13,8 @@ const RegistrationPage = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    gender: '' // Added gender field
   });
   const [errors, setErrors] = useState({});
 
@@ -24,23 +25,19 @@ const RegistrationPage = () => {
       [name]: value
     }));
 
-    
     if (name === 'confirmPassword') {
-     
       if (value === formData.password) {
         setErrors(prevErrors => ({
           ...prevErrors,
           confirmPassword: ''
         }));
       } else {
-        
         setErrors(prevErrors => ({
           ...prevErrors,
           confirmPassword: 'Passwords do not match'
         }));
       }
     } else {
-      
       setErrors(prevErrors => ({
         ...prevErrors,
         [name]: ''
@@ -61,12 +58,10 @@ const RegistrationPage = () => {
       setErrors(validationErrors);
     }
   };
-  
 
   const validateFormData = (data) => {
     let errors = {};
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
 
     if (!data.firstName.trim()) {
       errors.firstName = 'First Name is required';
@@ -89,7 +84,7 @@ const RegistrationPage = () => {
     if (!data.password.trim()) {
       errors.password = 'Password is required';
     } 
- 
+
     if (!data.confirmPassword.trim()) {
       errors.confirmPassword = 'Please confirm your password';
     } else if (data.confirmPassword !== data.password) {
@@ -98,6 +93,10 @@ const RegistrationPage = () => {
 
     if (!data.phoneNumber.trim()) {
       errors.phoneNumber = 'Phone Number is required';
+    }
+
+    if (!data.gender) {
+      errors.gender = 'Gender is required';
     }
 
     return errors;
@@ -109,7 +108,6 @@ const RegistrationPage = () => {
     '* Password must contain at least one uppercase letter',
     '* Password must contain at least one special character',
     '* Password must be at least 8 characters long'
-  
   ];
 
   const isPasswordValid = (password) => {
@@ -120,15 +118,13 @@ const RegistrationPage = () => {
         /^(?=.*[@$!%*?&])/.test(password), 
         password.length >= 8
     ];
-};
-
+  };
 
   return (
     <div className="relative flex flex-col bg-black items-center justify-center min-h-screen">
       <NavigationMenu />
       <div className="z-10 relative"> 
         <form className="w-full max-w-md bg-white shadow-md rounded px-8 pt-6 pb-8 mb-12 mt-24" onSubmit={handleSubmit}>
-          
           <h2 className="text-3xl text-black font-bold mb-4 text-center">Register</h2>
           <div className="flex flex-wrap -mx-3 mb-4">
             <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
@@ -147,6 +143,15 @@ const RegistrationPage = () => {
             <label htmlFor="username" className="block text-gray-900">Username</label>
             <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
             {errors.username && <span className="text-red-500">{errors.username}</span>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="gender" className="block text-gray-900">Gender</label>
+            <select id="gender" name="gender" value={formData.gender} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500">
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            {errors.gender && <span className="text-red-500">{errors.gender}</span>}
           </div>
           <div className="mb-4">
             <label htmlFor="phoneNumber" className="block text-gray-900">Phone Number</label>
