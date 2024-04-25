@@ -43,8 +43,9 @@ const Login = () => {
                 <NavigationMenu />
             </div>
              
-            {successMessage && <p className="text-center text-green-500 mb-4">{successMessage}</p>}
+           
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+            {successMessage && <p className="text-center text-green-500 mb-4">{successMessage}</p>}
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-800 text-sm font-bold mb-2">Email</label>
                     <input type="email" id="email" name="email" value={credentials.email} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-800 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" required />
