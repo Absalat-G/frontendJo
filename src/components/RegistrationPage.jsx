@@ -14,9 +14,10 @@ const RegistrationPage = () => {
     password: '',
     confirmPassword: '',
     phoneNumber: '',
-    gender: '' // Added gender field
+    gender: '' 
   });
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +46,19 @@ const RegistrationPage = () => {
     }
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const validationErrors = validateFormData(formData);
+  //   if (Object.keys(validationErrors).length === 0) {
+  //     console.log('Form submitted:', formData);
+  //     axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/RegistrationPage', formData)
+  //       .then(res => navigate('/login'))
+  //       .catch(err => console.log(err));
+  //   } else {
+  //     setErrors(validationErrors);
+  //   }
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -52,7 +66,12 @@ const RegistrationPage = () => {
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form submitted:', formData);
       axios.post('https://jollofsummit-df2363f7dc94.herokuapp.com/RegistrationPage', formData)
-        .then(res => navigate('/login'))
+        .then(res => {
+          setSuccessMessage('Registration successful. Redirecting to login page...');
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000); 
+        })
         .catch(err => console.log(err));
     } else {
       setErrors(validationErrors);
@@ -178,7 +197,11 @@ const RegistrationPage = () => {
             <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="w-full px-3 py-2 mt-1 text-gray-700 border border-slate-400 rounded-md focus:outline-none focus:ring focus:ring-indigo-500" />
             {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
           </div>
-        
+          {successMessage && (
+            <div className="text-green-500 mb-4">
+              {successMessage}
+            </div>
+          )}
           <button type="submit" className="w-full px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600">Register</button>
           <p className='text-center'>Already have an account? <Link to="/login" className='text-blue-600 hover:underline'>Login here</Link></p>
         </form>

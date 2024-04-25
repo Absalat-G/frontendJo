@@ -10,6 +10,7 @@ import image3 from '../images/carousel3.png';
 import image4 from '../images/gallery1.png';
 import image5 from '../images/carousel3.png';
 import image6 from '../images/gallery2.png';
+import Footer from '../components/Footer';
 import { useInView } from 'react-intersection-observer';
 const Home = () => {
   const images = [image1, image2, image3];
@@ -113,6 +114,7 @@ const Home = () => {
         transition={{ duration: 0.5 }}
       >
         <Contact />
+        <Footer personalName="Absalat Girma" />
       </motion.div>
     </motion.div>
   );
